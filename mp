@@ -54,3 +54,62 @@ int main()
     return 0;
 }
 
+
+
+#include <iostream>
+#include<string>
+using namespace std;
+int main()
+{
+    int n;
+    cin >> n;
+    int m1 = 0, m2 = 0, bal, school, kol1 = 0, kol2 = 0;
+    string stud,name1,name2;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> stud >> school >> bal;
+        if (school == 50)
+        {
+            if (bal > m1)
+            {
+                if (kol1 == 0)
+                {
+                    m1 = bal;
+                  name1 = stud;
+                  kol1++;
+                }
+                else
+                {
+                    m2=m1;
+                    m1 = bal;
+                    name2 = name1;
+                    name1 = stud;
+                    kol2++;
+                }
+            }
+            if ((bal < m1) && (bal >= m2))
+            {
+                m2 = bal;
+                kol2++;
+                name2 = stud;
+            }
+            else
+                if ((bal == m1) && (stud != name1))
+                {
+                    name2 = stud;
+                    kol1++;
+                    m2 = bal;
+                }
+        }
+    }
+    if ((kol1 == 1) && (kol2 == 1))
+        cout << name1 << " " << name2;
+    if ((kol1 == 1) && (kol2 > 1))
+        cout << name1;
+    if (kol1 > 2)
+        cout << kol1;
+    if (kol1 == 2)
+        cout << name1 << " " << name2;
+}
+
+
