@@ -113,3 +113,92 @@ int main()
 }
 
 
+//Если файл является неубывающим,то записать во второй  файл модуль
+//отрицательных,иначе записать в третий файл элементы,в записи которых  втстречается 3,увеличенные на введенное пользователем число.
+//Пример 1:
+//Введите число для второго варианта : 5
+//Введите числа в файл : -10 - 5 - 3 - 2 - 1 1 2 3 100 115 0
+// Пример 2:
+//Введите число для второго варианта : 5
+//Введите числа в файл : -100 - 5 10 13 3 10 43 23 0
+#include <iostream>
+#include<fstream>
+using namespace std;
+bool neub(int* a, int i)
+{
+    for (int j = 0; j < i-1; j++)
+    {
+        if (a[j] > a[j + 1])
+            return false;
+    }
+    return true;
+}
+bool three(int x)
+{
+    while (x)
+    {
+        if (abs(x) % 10 == 3)
+        {
+            return true;
+        }
+        x /= 10;
+    }
+    return false;
+}
+int main()
+{
+    setlocale(LC_ALL, "rus");
+    cout << "Введите число для второго варианта: ";
+    int n;
+    cin >> n;
+    cout << "Введите числа в файл: ";
+    ofstream f1("f1.txt");
+    int x;
+    for (cin >> x; x != 0; cin >> x)
+    {
+        f1 << x;
+        f1.width(5);
+    }
+    f1.close();
+    ifstream f1_in("f1.txt");
+    int* a = new int[0];
+    int i = 0;
+    while (!f1_in.eof() && f1_in >> x)
+    {
+        a[i] = x;
+        i++;
+    }
+    f1_in.close();
+    if (neub(a, i))
+    {
+        ofstream f2("f2.txt");
+        f1_in.open("f1.txt");
+        while (!f1_in.eof() && f1_in >> x)
+        {
+            if (x < 0)
+            {
+             f2 << abs(x);
+             f2.width(5);
+            }
+        }
+        f1_in.close();
+        f2.close();
+    }
+    else
+    {
+        ofstream f3("f3.txt");
+        f1_in.open("f1.txt");
+        while (!f1_in.eof() && f1_in >> x)
+        {
+            if (three(x))
+            {
+                f3 << x + n;
+                f3.width(5);
+            }
+        }
+        f1_in.close();
+        f3.close();
+    }
+}
+
+
